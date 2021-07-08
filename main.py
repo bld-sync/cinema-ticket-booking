@@ -13,14 +13,19 @@ card_type = "visa".capitalize()
 card_number = "12345678"
 card_cvc = "123"
 card_holder = "John Smith".title()
-seat = "b3".upper()
+seat = "b1".upper()
 
 
-if not seat_taken(seat):
-    if valid_card(card_type, card_number, card_cvc, card_holder):
-        charge_the_card(card_number, seat)
-        seat_update(seat)
-        create_pdf(name, seat, seat_cost(seat))
+info = Buy(seat=seat, card_type=card_type, card_number=card_number,
+           card_cvc=card_cvc, card_holder=card_holder)
+export = Pdf(name=name, seat=seat, seat_cost=Buy.seat_cost(info))
+
+
+if not Buy.seat_taken(info):
+    if Buy.valid_card(info):
+        Buy.charge_the_card(info)
+        Buy.seat_update(info)
+        Pdf.create_pdf(export)
         print("Purchase successful!")
     else:
         print("There was a problem with your card!")
